@@ -1,0 +1,29 @@
+# Virtual environment
+mvenv/
+venv/
+env/
+
+# added just for my understanding
+code.md
+
+# Python
+__pycache__/
+dist/
+build/
+
+# IDE
+.vscode/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Data files
+*.csv
+*.xlsx
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Instructions
+instructions.md

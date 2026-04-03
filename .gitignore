@@ -17,10 +17,6 @@ build/
 # Jupyter Notebooks
 .ipynb_checkpoints/
 
-# Data files
-*.csv
-*.xlsx
-
 # OS
 .DS_Store
 Thumbs.db

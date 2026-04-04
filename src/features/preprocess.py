@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import json
 from src.data.loader import df
+from dataset_cleaned.df_reader import save_df
 
 def preprocess(x):
     L = []
@@ -30,17 +31,21 @@ df['cast'] = df['cast'].apply(lambda x: [i.replace(" ","") for i in x])
 df['crew'] = df['crew'].apply(lambda x: [i.replace(" ","")  for i in x])
 
 # Combining all the 5 selected features
-combined_string = (
-    df['overview'] * 1 + " " +
-    df['genres'].apply(lambda x: " ".join(x)) * 3 + " " +
-    df['keywords'].apply(lambda x: " ".join(x)) * 2 + " " +
-    df['cast'].apply(lambda x: " ".join(x)) * 2 + " " +
-    df['crew'].apply(lambda x: " ".join(x)) * 2
+df["combined_string"] = (
+    df['overview'] + " " +
+    df['genres'].apply(lambda x: " ".join(x)) + " " +
+    df['keywords'].apply(lambda x: " ".join(x)) + " " +
+    df['cast'].apply(lambda x: " ".join(x)) + " " +
+    df['crew'].apply(lambda x: " ".join(x))
 )
 
-df['tags'] = combined_string.apply(lambda x: x.lower())
+# print(df.head(1))
+# print(df['combined_string'].dtype)
+df["combined_string"] = df["combined_string"].astype(str)
 
-df_new = df[['movie_id','title','tags']]
+df['tags'] = df["combined_string"].apply(lambda x: x.lower())
+
+df_new = df[['movie_id','title','tags']].copy()
 
 df_new['clean_title'] = (
     df_new['title']
@@ -49,6 +54,4 @@ df_new['clean_title'] = (
     .str.replace(r'[^a-z0-9]', '', regex=True)
 )
 
-df_new.to_csv("../dataset_cleaned/output.csv", index=False)
-
-print(df.head())
+save_df(df_new, "output.csv")

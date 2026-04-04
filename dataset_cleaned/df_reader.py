@@ -1,5 +1,8 @@
 import pandas as pd
 
-df_new = pd.read_csv("dataset_cleaned\\output.csv")
+def load_df(filename):
+    df_new = pd.read_csv(filename)
+    return df_new
 
-print(df_new.head())
+def save_df(df, filename):
+    df.to_csv(f"dataset_cleaned\\{filename}", index=False)
